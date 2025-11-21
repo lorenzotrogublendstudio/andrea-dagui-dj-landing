@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 // Importa le immagini con nomi corretti
@@ -9,7 +9,6 @@ import img4 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-matrimoni.j
 import img5 from '../assets/img/immagini-corrette-simo/img_dagui.jpg';
 
 const GallerySection = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
   const [titleRef, titleVisible] = useScrollAnimation(0.2);
   const [galleryRef, galleryVisible] = useScrollAnimation(0.1);
 
@@ -42,18 +41,17 @@ const GallerySection = () => {
           {images.map((image, index) => (
             <div 
               key={index}
-              className={`relative overflow-hidden rounded-lg sm:rounded-xl shadow-lg cursor-pointer group bg-black min-h-[250px] sm:min-h-[280px] md:min-h-[300px] flex items-center justify-center scroll-reveal-rotate ${galleryVisible ? 'active' : ''}`}
+              className={`relative overflow-hidden rounded-lg sm:rounded-xl shadow-lg group bg-black min-h-[250px] sm:min-h-[280px] md:min-h-[300px] flex items-center justify-center scroll-reveal-rotate ${galleryVisible ? 'active' : ''}`}
               style={{ transitionDelay: `${index * 0.1}s` }}
-              onClick={() => setSelectedImage(image)}
             >
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+              {/* Gradient overlay - SEMPRE VISIBILE */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 group-hover:via-black/30 transition-all duration-300 z-10"></div>
               
               {/* Border glow effect */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-[#d02894] to-purple-600 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-75 blur transition-opacity duration-300"></div>
               
-              {/* Category badge */}
-              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-[#d02894] text-white text-xs px-2 py-1 sm:px-3 rounded-full font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {/* Category badge - SEMPRE VISIBILE */}
+              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-[#d02894] text-white text-xs px-2 py-1 sm:px-3 rounded-full font-semibold group-hover:bg-gradient-to-r group-hover:from-[#d02894] group-hover:to-purple-600 transition-all duration-300">
                 {image.category}
               </div>
               
@@ -67,48 +65,14 @@ const GallerySection = () => {
                 }}
               />
               
-              {/* Text overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 z-20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black to-transparent">
-                <p className="text-white font-bold text-base sm:text-lg mb-2">{image.alt}</p>
-                <div className="flex items-center gap-2 text-[#d02894]">
-                  <span className="text-xs sm:text-sm font-semibold">Visualizza</span>
-                  <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </div>
+              {/* Text overlay - SEMPRE VISIBILE sul bottom */}
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 z-20 bg-gradient-to-t from-black via-black/80 to-transparent group-hover:p-6 transition-all duration-300">
+                <p className="text-white font-bold text-sm sm:text-base md:text-lg">{image.alt}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Modal per immagine ingrandita */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button 
-            className="absolute top-4 right-4 text-white text-3xl sm:text-4xl w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center hover:text-[#d02894] transition-colors hover:rotate-90 transform duration-300 bg-white/10 rounded-full backdrop-blur-sm"
-            onClick={() => setSelectedImage(null)}
-          >
-            ×
-          </button>
-          <div className="relative max-w-full sm:max-w-5xl md:max-w-6xl max-h-[85vh] sm:max-h-[90vh] animate-slide-up">
-            <div className="absolute -top-10 sm:-top-12 left-0 bg-[#d02894] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-semibold text-xs sm:text-sm">
-              {selectedImage.category}
-            </div>
-            
-            <img 
-              src={selectedImage.src} 
-              alt={selectedImage.alt}
-              className="max-w-full max-h-[85vh] sm:max-h-[90vh] object-contain rounded-lg shadow-2xl"
-            />
-            <p className="text-white text-center mt-3 sm:mt-4 text-base sm:text-lg font-semibold px-4">{selectedImage.alt}</p>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

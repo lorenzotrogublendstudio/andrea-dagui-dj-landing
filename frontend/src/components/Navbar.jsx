@@ -48,9 +48,10 @@ const Navbar = () => {
   const menuItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'Chi Sono' },
-    { id: 'services', label: 'Servizi' },
     { id: 'gallery', label: 'Gallery' },
-    { id: 'experience', label: 'Esperienza' },
+    { id: 'services', label: 'Servizi' },
+    
+   
     { id: 'contact', label: 'Contatti' }
   ];
 
