@@ -6,7 +6,7 @@ import img1 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-.jpg';
 import img2 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-concerto-.jpg';
 import img3 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-concerto.jpg';
 import img4 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-matrimoni.jpg';
-import img5 from '../assets/img/immagini-corrette-simo/showgroup-photo-book-y-25600s473b714c-703f-4c16-9dc1-4b8e472a2569-large.jpg';
+import img5 from '../assets/img/immagini-corrette-simo/img_dagui.jpg';
 
 const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState(null);
