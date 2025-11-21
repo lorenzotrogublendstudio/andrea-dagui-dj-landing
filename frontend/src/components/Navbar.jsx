@@ -131,73 +131,102 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Hamburger pulito senza cerchio */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden relative w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 flex-shrink-0 ml-4"
+            className="lg:hidden relative w-10 h-10 flex items-center justify-center backdrop-blur-sm hover:bg-white/5 transition-all duration-300 flex-shrink-0 ml-4 group"
+            aria-label="Toggle menu"
           >
             <div className="relative w-6 h-5">
-              <span className={`absolute w-full h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'top-2 rotate-45' : 'top-0'}`}></span>
-              <span className={`absolute w-full h-0.5 bg-white top-2 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`absolute w-full h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'top-2 -rotate-45' : 'top-4'}`}></span>
+              <span className={`absolute left-0 w-full h-0.5 bg-white rounded-full transition-all duration-300 ${
+                isMenuOpen ? 'top-2 rotate-45' : 'top-0'
+              }`}></span>
+              <span className={`absolute left-0 w-full h-0.5 bg-white rounded-full top-2 transition-all duration-300 ${
+                isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+              }`}></span>
+              <span className={`absolute left-0 w-full h-0.5 bg-white rounded-full transition-all duration-300 ${
+                isMenuOpen ? 'top-2 -rotate-45' : 'top-4'
+              }`}></span>
             </div>
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={`lg:hidden overflow-hidden transition-all duration-500 ${isMenuOpen ? 'max-h-[500px] pb-4' : 'max-h-0'}`}>
-          <div className="bg-black/95 backdrop-blur-xl rounded-2xl border border-[#d02894]/20 shadow-2xl overflow-hidden mt-4">
-            {menuItems.map((item, index) => {
-              const isActive = activeSection === item.id;
-              
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative w-full text-left px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300 border-b border-white/5 last:border-0 group ${
-                    isActive
-                      ? 'bg-gradient-to-r from-[#d02894]/20 to-transparent text-white'
-                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                  }`}
-                  style={{ transitionDelay: isMenuOpen ? `${index * 0.03}s` : '0s' }}
-                >
-                  {/* Sliding bar */}
-                  <span className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d02894] to-purple-600 transition-all duration-300 ${
-                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                  }`}></span>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-sm sm:text-base transition-transform duration-300 group-hover:translate-x-2">
-                      {item.label}
-                    </span>
+        {/* Mobile Menu - Design migliorato */}
+        <div className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+          isMenuOpen ? 'max-h-[600px] opacity-100 mb-4' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="bg-gradient-to-br from-black/98 via-gray-900/98 to-black/98 backdrop-blur-2xl rounded-3xl border border-[#d02894]/30 shadow-2xl shadow-[#d02894]/10 overflow-hidden mt-4">
+            {/* Header menu mobile */}
+            <div className="px-6 py-4 border-b border-white/5 bg-gradient-to-r from-[#d02894]/10 to-purple-600/10">
+              <p className="text-white/60 text-xs font-semibold tracking-wider uppercase">Menu</p>
+            </div>
+
+            {/* Menu items */}
+            <div className="py-2">
+              {menuItems.map((item, index) => {
+                const isActive = activeSection === item.id;
+                
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`relative w-full text-left px-6 py-4 transition-all duration-300 border-b border-white/5 last:border-0 group ${
+                      isActive
+                        ? 'bg-gradient-to-r from-[#d02894]/20 via-[#d02894]/10 to-transparent text-white'
+                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    }`}
+                    style={{ 
+                      animationDelay: isMenuOpen ? `${index * 0.05}s` : '0s',
+                      animation: isMenuOpen ? 'slideInLeft 0.3s ease-out forwards' : 'none'
+                    }}
+                  >
+                    {/* Sliding bar verticale */}
+                    <span className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#d02894] via-purple-500 to-purple-600 transition-all duration-300 ${
+                      isActive ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100'
+                    }`}></span>
                     
-                    {isActive ? (
-                      <span className="w-2 h-2 bg-[#d02894] rounded-full"></span>
-                    ) : (
-                      <svg 
-                        className="w-4 h-4 text-[#d02894] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-base transition-all duration-300 group-hover:translate-x-2 group-hover:text-[#d02894]">
+                        {item.label}
+                      </span>
+                      
+                      {isActive ? (
+                        <span className="flex items-center gap-2">
+                          <span className="w-2 h-2 bg-[#d02894] rounded-full animate-pulse"></span>
+                          <span className="text-[#d02894] text-xs font-semibold">Attivo</span>
+                        </span>
+                      ) : (
+                        <svg 
+                          className="w-5 h-5 text-[#d02894] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
             
-            {/* CTA Button Mobile */}
-            <div className="p-4">
+            {/* CTA Button Mobile - Design migliorato */}
+            <div className="p-5 bg-gradient-to-br from-[#d02894]/5 to-purple-600/5">
               <button
                 onClick={() => scrollToSection('contact')}
-                className="w-full px-6 py-3 bg-gradient-to-r from-[#d02894] to-purple-600 text-white font-bold rounded-full hover:shadow-lg hover:shadow-[#d02894]/50 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base group"
+                className="w-full px-6 py-4 bg-gradient-to-r from-[#d02894] to-purple-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-[#d02894]/50 transition-all duration-300 flex items-center justify-center gap-3 text-base group relative overflow-hidden"
               >
-                Prenota Ora
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
+                <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-[#d02894] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="relative z-10 flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Prenota Ora
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
               </button>
             </div>
           </div>
