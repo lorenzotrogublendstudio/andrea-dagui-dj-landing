@@ -1,5 +1,5 @@
 import React from 'react';
-import heroImage from '../assets/img/showgroup-photo-cover-y-25600s2feca8c2-f39a-4760-a451-a0b2d3a2e957-large.jpg';
+import heroImage from '../assets/img/img8.jpg';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 const HeroSection = () => {
   const scrollToContact = () => {
