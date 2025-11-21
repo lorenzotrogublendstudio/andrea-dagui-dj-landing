@@ -1,5 +1,5 @@
 import React from 'react';
-import aboutImage from '../assets/img/showgroup-photo-book-y-25600s7ae89d99-a176-45fd-a9ef-8544ddfb818a-large.jpg';
+import aboutImage from '../assets/img/img1.jpg';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const AboutSection = () => {
