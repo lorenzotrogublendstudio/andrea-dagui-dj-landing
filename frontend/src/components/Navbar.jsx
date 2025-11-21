@@ -23,7 +23,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="text-white font-bold text-2xl">
-            AD<span className="text-[#d02894]">MUSIC</span>
+            ANDREA D'AGUÌ<b><span className="text-[#d02894]"> MUSIC</span></b>
           </div>
           
           {/* Desktop Menu */}

@@ -1,8 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  body {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Abril Fatface', cursive;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    line-height: 1.15;
+    -webkit-text-stroke: 0.15px rgba(255, 255, 255, 0.05);
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01" 1;
+    opacity: 0.95;
+  }
+  
+  h1 {
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    opacity: 0.98;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+  }
+  
+  h3 {
+    font-size: 1.875rem;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+}
+
 @layer utilities {
+  .font-display {
+    font-family: 'Abril Fatface', cursive;
+    -webkit-text-stroke: 0.15px rgba(255, 255, 255, 0.05);
+    letter-spacing: 1.2px;
+    font-feature-settings: "ss01" 1;
+  }
+  
+  .font-body {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
   .animate-fade-in {
     animation: fadeIn 1s ease-in;
   }
@@ -179,13 +240,4 @@
 
 * {
   scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
