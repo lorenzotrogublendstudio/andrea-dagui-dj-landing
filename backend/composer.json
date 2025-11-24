@@ -1,5 +1,5 @@
 {
-  "name": "andrea-dagui-dj-landing",
+  "name": "blendstudio/andrea-dagui-dj-landing",
   "description": "Landing page for DJ Andrea D'Aguì, specialized in wedding music.",
   "type": "project",
   "require": {
@@ -7,7 +7,8 @@
     "slim/slim": "^4.0",
     "slim/psr7": "^1.0",
     "monolog/monolog": "^2.0",
-    "illuminate/database": "^8.0"
+    "illuminate/database": "^8.0",
+    "phpoffice/phpspreadsheet": "^5.2"
   },
   "autoload": {
     "psr-4": {

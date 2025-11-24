@@ -1,0 +1,22 @@
+﻿"REPORT AUTOMATICO CLICK WHATSAPP"
+"Generato il:","24/11/2025 09:40:10"
+
+"RIEPILOGO GENERALE"
+"Click Totali Registrati",7
+
+"STATISTICHE PER SEZIONE"
+"Nome Sezione",Conteggio
+floating_button,3
+about_section,2
+minisite_section,1
+services_section,1
+
+"DETTAGLIO ANALITICO (Tutti i click)"
+ID,"Sezione Provenienza","Data e Ora"
+7,about_section,"2025-11-24 10:34:30"
+6,floating_button,"2025-11-24 10:34:25"
+5,services_section,"2025-11-24 10:34:23"
+4,minisite_section,"2025-11-24 10:34:19"
+3,floating_button,"2025-11-24 10:08:38"
+2,about_section,"2025-11-24 10:01:46"
+1,floating_button,"2025-11-24 10:01:32"

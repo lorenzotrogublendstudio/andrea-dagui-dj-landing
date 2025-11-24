@@ -1,0 +1,1 @@
+/usr/local/php80/bin/php /home/customer/www/iltuodominio.it/public_html/api/scripts/export_report.php
