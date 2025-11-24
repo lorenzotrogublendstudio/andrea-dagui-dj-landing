@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 const ServicesSection = () => {
   const [titleRef, titleVisible] = useScrollAnimation(0.2);
@@ -9,6 +10,10 @@ const ServicesSection = () => {
   const phoneNumber = "393331234567";
   const message = "Ciao! Vorrei un preventivo sui vostri servizi.";
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  const handleClick = () => {
+    trackWhatsAppClick('services_section');
+  };
 
   const services = [
     // ... (array services esistente) ...
@@ -80,6 +85,7 @@ const ServicesSection = () => {
         <div className="flex justify-center">
             <a 
               href={whatsappLink}
+              onClick={handleClick}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3 border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white font-bold rounded-full transition-all duration-300 group"

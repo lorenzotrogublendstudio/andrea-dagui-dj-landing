@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 const WhatsAppButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,14 +15,19 @@ const WhatsAppButton = () => {
   const phoneNumber = "393331234567"; // Inserisci qui il numero reale
   const message = "Ciao Andrea, vorrei informazioni per un evento!";
 
+  const handleClick = () => {
+    trackWhatsAppClick('floating_button');
+  };
+
   return (
     <div className={`fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2 transition-all duration-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
       
-    
+      
 
       {/* Pulsante */}
       <a
         href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
+        onClick={handleClick}
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] hover:bg-[#20bd5a] rounded-full shadow-xl shadow-[#25D366]/30 transition-all duration-300 hover:scale-110"

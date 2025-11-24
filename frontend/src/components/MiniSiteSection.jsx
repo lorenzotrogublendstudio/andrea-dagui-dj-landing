@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 const MiniSiteSection = () => {
   const [titleRef, titleVisible] = useScrollAnimation(0.2);
@@ -9,6 +10,10 @@ const MiniSiteSection = () => {
   const phoneNumber = "393331234567";
   const message = "Ciao! Vorrei sapere di più sul servizio del Mini Sito Web per il matrimonio.";
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  const handleClick = () => {
+    trackWhatsAppClick('minisite_section');
+  };
 
   // ... (tutto l'array features esistente rimane uguale) ...
     const features = [
@@ -106,6 +111,7 @@ const MiniSiteSection = () => {
         <div className="text-center mb-16">
           <a 
             href={whatsappLink}
+            onClick={handleClick}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-[#25D366]/20 group"

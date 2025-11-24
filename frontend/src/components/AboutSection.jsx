@@ -1,6 +1,7 @@
 import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import img1 from '../assets/img/img1.jpg';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 const AboutSection = () => {
   const [titleRef, titleVisible] = useScrollAnimation(0.2);
@@ -11,6 +12,10 @@ const AboutSection = () => {
   const phoneNumber = "393331234567";
   const message = "Ciao Andrea, ho letto la tua biografia e vorrei maggiori info!";
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  const handleClick = () => {
+    trackWhatsAppClick('about_section');
+  };
 
   return (
     <section id="about" className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
@@ -66,6 +71,7 @@ const AboutSection = () => {
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <a 
                     href={whatsappLink}
+                    onClick={handleClick}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-[#25D366]/20 group"
@@ -83,7 +89,6 @@ const AboutSection = () => {
 
           {/* Foto a destra */}
           <div ref={imageRef} className={`scroll-reveal ${imageVisible ? 'active' : ''} lg:order-last`}>
-            {/* ... codice foto esistente ... */}
              <div className="relative group">
               <div className="relative overflow-hidden rounded-3xl border-4 border-white shadow-2xl">
                 <img 

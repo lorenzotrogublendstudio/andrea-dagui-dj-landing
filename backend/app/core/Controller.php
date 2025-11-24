@@ -1,17 +1,11 @@
 <?php
 
 class Controller {
-    protected $request;
-    protected $response;
-
-    public function __construct($request, $response) {
-        $this->request = $request;
-        $this->response = $response;
-    }
+    // Costruttore rimosso per evitare l'errore ArgumentCountError
 
     protected function jsonResponse($data, $status = 200) {
-        $this->response->setHeader('Content-Type', 'application/json');
-        $this->response->setStatus($status);
+        http_response_code($status);
+        header('Content-Type: application/json');
         echo json_encode($data);
         exit;
     }
@@ -23,6 +17,12 @@ class Controller {
 
     protected function render($view, $data = []) {
         extract($data);
-        include "../views/$view.php";
+        // Assumiamo che le view siano nella cartella views parallela ad app
+        if (file_exists("../app/views/$view.php")) {
+            include "../app/views/$view.php";
+        } else {
+            die("View $view not found");
+        }
     }
 }
+?>
