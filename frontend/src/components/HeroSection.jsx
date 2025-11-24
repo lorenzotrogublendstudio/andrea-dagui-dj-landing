@@ -29,18 +29,7 @@ const HeroSection = () => {
             La musica perfetta per il tuo evento speciale
           </p>
           
-          <button
-            onClick={scrollToContact}
-            className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#d02894] to-purple-600 text-white font-bold rounded-full text-sm sm:text-base md:text-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-[#d02894]/50 hover:scale-105"
-          >
-            <span className="relative z-10 flex items-center gap-2 justify-center">
-              Richiedi Informazioni
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-[#d02894] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </button>
+     
         </div>
       </div>
 
