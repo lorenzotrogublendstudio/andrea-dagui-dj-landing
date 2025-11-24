@@ -10,6 +10,7 @@ import ExperienceSection from './components/ExperienceSection';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import './assets/styles/index.css';
+import WhatsAppButton from './components/WhatsAppButton';
 
 const App = () => {
   return (
@@ -22,8 +23,9 @@ const App = () => {
       <ServicesSection />
       
       
-      <ContactForm />
+      
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };
