@@ -1,10 +1,8 @@
 import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-// Importa le immagini con nomi corretti
+// Importa le immagini necessarie
 import img1 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-.jpg';
-import img2 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-concerto-.jpg';
-import img3 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-concerto.jpg';
 import img4 from '../assets/img/immagini-corrette-simo/ANDREA-D-AGUI-matrimoni.jpg';
 import img5 from '../assets/img/immagini-corrette-simo/img_dagui.jpg';
 
@@ -12,12 +10,11 @@ const GallerySection = () => {
   const [titleRef, titleVisible] = useScrollAnimation(0.2);
   const [galleryRef, galleryVisible] = useScrollAnimation(0.1);
 
+  // Array aggiornato con solo le 3 foto richieste
   const images = [
-    { src: img1, alt: "Andrea D'Aguì - DJ Performance", category: "DJ" },
-    { src: img2, alt: "Andrea D'Aguì - Concerto Live", category: "Live" },
-    { src: img3, alt: "Andrea D'Aguì - Performance Live", category: "Live" },
-    { src: img4, alt: "Andrea D'Aguì - Matrimoni", category: "Wedding" },
-    { src: img5, alt: "Andrea D'Aguì - Show Performance", category: "Band" }
+    { src: img1, alt: "Concerti", category: "DJ" },
+    { src: img4, alt: "Matrimoni", category: "Wedding" },
+    { src: img5, alt: "Show Performance", category: "Band" }
   ];
 
   return (
@@ -37,6 +34,7 @@ const GallerySection = () => {
           </p>
         </div>
         
+        {/* Grid aggiornata per gestire bene 3 elementi */}
         <div ref={galleryRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 max-w-7xl mx-auto">
           {images.map((image, index) => (
             <div 

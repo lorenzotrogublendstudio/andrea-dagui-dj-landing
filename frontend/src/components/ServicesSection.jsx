@@ -24,17 +24,17 @@ const ServicesSection = () => {
     },
     {
       icon: "🎤",
-      title: "Cantanti Live",
+      title: "Cantante Live",
       description: "Performance vocali professionali per rendere unico il tuo evento"
     },
     {
       icon: "🎷",
-      title: "Musicisti",
-      description: "Sax, violino, pianoforte e altri strumenti per band o performance singole"
+      title: "Musicista",
+      description: "Sax, violino, pianoforte e altri strumenti per il tuo matrimonio"
     },
     {
       icon: "💍",
-      title: "Musica per Matrimoni",
+      title: "Intrattenitore",
       description: "Accompagnamento musicale completo per ogni fase del matrimonio"
     },
     {
@@ -59,7 +59,7 @@ const ServicesSection = () => {
         <div ref={titleRef} className={`text-center mb-12 scroll-reveal ${titleVisible ? 'active' : ''}`}>
           {/* ... title ... */}
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
-            Servizi
+            Cosa posso fare per te
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#d02894] to-transparent mx-auto mb-4"></div>
           <p className="text-gray-400 text-xl">
