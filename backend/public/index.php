@@ -1,7 +1,5 @@
 <?php
-// ==========================================
-// GESTIONE CORS GLOBALE
-// ==========================================
+// ... CORS header ... (rimangono uguali)
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -11,24 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// ==========================================
-// CARICAMENTO LIBRERIE COMPOSER (NUOVO)
-// ==========================================
-require_once '../vendor/autoload.php'; // <--- QUESTA RIGA È FONDAMENTALE
+require_once '../vendor/autoload.php';
 
-// ==========================================
-// CONFIGURAZIONE E CARICAMENTO CORE
-// ==========================================
 require_once '../app/config/database.php';
 require_once '../app/core/Controller.php';
 require_once '../app/core/App.php';
 
-// Models
 require_once '../app/models/Contact.php';
 require_once '../app/models/WhatsAppClick.php';
 
-// ==========================================
-// AVVIO APPLICAZIONE
-// ==========================================
+// --- AGGIUNTA NUOVA ---
+require_once '../app/services/EmailService.php'; 
+// ---------------------
+
 $app = new App();
 ?>
