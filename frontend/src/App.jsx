@@ -23,7 +23,7 @@ const App = () => {
       <ServicesSection />
       
       
-      
+      <ContactForm />
       <Footer />
       <WhatsAppButton />
     </div>

@@ -1,76 +1,49 @@
 import React from 'react';
+import LeadForm from './LeadForm'; // <--- Importa il componente
 
 const HeroSection = () => {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const scrollToAbout = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black pt-16 sm:pt-20">
-      {/* Background effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-[#d02894]/20 rounded-full blur-3xl animate-pulse-subtle"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse-subtle animation-delay-400"></div>
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex-grow flex flex-col justify-center">
-        <div className="text-center text-white animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-            Andrea D'Aguì
-          </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-[#d02894] to-purple-500 mb-4 sm:mb-6 font-semibold">
-            DJ & Music Planner
-          </p>
-          <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-10 md:mb-12 max-w-2xl mx-auto px-4 leading-relaxed">
-            La musica perfetta per il tuo evento speciale
-          </p>
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black pt-24 pb-12 sm:pt-32 sm:pb-16">
+      {/* ... Sfondo (codice esistente) ... */}
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           
-     
-        </div>
-      </div>
-
-      {/* Scroll indicator proprio in fondo - centrato perfettamente */}
-      <div className="relative z-10 pb-6 sm:pb-8 md:pb-10 flex flex-col items-center justify-center">
-        <button
-          onClick={scrollToAbout}
-          className="animate-bounce cursor-pointer group flex flex-col items-center gap-2"
-          aria-label="Scorri per saperne di più"
-        >
-          <div className="relative">
-            {/* Cerchio esterno con glow effect */}
-            <div className="absolute inset-0 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-[#d02894]/20 rounded-full blur-xl group-hover:bg-[#d02894]/40 transition-all duration-300"></div>
+          {/* Testo a Sinistra */}
+          <div className="text-center lg:text-left animate-fade-in">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
+              Andrea D'Aguì
+            </h1>
+            <p className="text-xl sm:text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-[#d02894] to-purple-500 mb-6 font-bold">
+              DJ & Music Planner
+            </p>
+            <p className="text-gray-300 text-lg md:text-xl mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              La colonna sonora perfetta per il tuo matrimonio, curata in ogni dettaglio.
+            </p>
             
-            {/* Cerchio interno */}
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#d02894] to-purple-600 rounded-full flex items-center justify-center border-2 border-white/20 group-hover:border-white/40 transition-all duration-300 shadow-lg">
-              <svg 
-                className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white group-hover:translate-y-1 transition-transform duration-300" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-                strokeWidth={2.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
+            {/* Pulsante scopri di più (desktop) */}
+            <div className="hidden lg:flex items-center gap-4 cursor-pointer group" onClick={scrollToAbout}>
+               {/* ... icone (codice esistente) ... */}
+               <span className="text-white/70 group-hover:text-white transition-colors">Scopri di più</span>
             </div>
           </div>
-          
-          {/* Testo sempre visibile e ben centrato */}
-          <p className="text-white/70 group-hover:text-white/90 text-xs sm:text-sm font-semibold transition-all duration-300 tracking-wide">
-            Scopri di più
-          </p>
-        </button>
-      </div>
 
-      {/* Animated particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#d02894] rounded-full animate-float opacity-50"></div>
-        <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 bg-purple-500 rounded-full animate-float animation-delay-200 opacity-40"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-[#d02894] rounded-full animate-float animation-delay-400 opacity-60"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-purple-500 rounded-full animate-float animation-delay-600 opacity-50"></div>
+          {/* Form a Destra */}
+          <div className="animate-slide-up w-full max-w-md mx-auto lg:mx-0 lg:ml-auto">
+            <div className="bg-white/10 backdrop-blur-md border border-white/10 p-6 sm:p-8 rounded-3xl shadow-2xl shadow-[#d02894]/20 relative">
+              <h3 className="text-2xl font-bold text-white mb-2">Blocca la tua data! 📅</h3>
+              <p className="text-gray-300 text-sm mb-6">Compila il form per verificare la disponibilità.</p>
+              
+              {/* Usa il componente in variante DARK */}
+              <LeadForm variant="dark" />
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );
