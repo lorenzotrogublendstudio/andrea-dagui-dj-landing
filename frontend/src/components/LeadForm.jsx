@@ -55,7 +55,7 @@ const LeadForm = ({ variant = 'light' }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24">
       {/* Nome */}
       <div>
         <label className={labelClass}>Nome e Cognome *</label>

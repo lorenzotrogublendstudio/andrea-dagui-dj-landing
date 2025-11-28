@@ -1,6 +1,21 @@
 <?php
+// Definiamo la cartella base (che corrisponde alla cartella 'backend')
+$baseDir = dirname(__DIR__); 
+
 // ==========================================
-// 1. GESTIONE CORS GLOBALE
+// 1. GESTIONE ROUTING PER SERVER DI SVILUPPO (PHP -S)
+// ==========================================
+if (php_sapi_name() == 'cli-server') {
+    $url  = parse_url($_SERVER['REQUEST_URI']);
+    $file = $baseDir . '/public' . $url['path'];
+    // Se il file esiste (immagini, css, js), servilo direttamente
+    if (is_file($file)) {
+        return false;
+    }
+}
+
+// ==========================================
+// 2. GESTIONE CORS GLOBALE
 // ==========================================
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
@@ -12,31 +27,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // ==========================================
-// 2. CARICAMENTO LIBRERIE E ENV
+// 3. CARICAMENTO LIBRERIE E ENV
 // ==========================================
-require_once '../vendor/autoload.php';
+// Percorso assoluto al file autoload
+$autoloadPath = $baseDir . '/vendor/autoload.php';
 
-// Carica le variabili d'ambiente dal file .env
-// dirname(__DIR__) punta alla cartella 'backend'
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->safeLoad(); // safeLoad non rompe tutto se il file .env manca
+if (!file_exists($autoloadPath)) {
+    http_response_code(500);
+    // Stampiamo il percorso dove lo sta cercando per debug
+    die(json_encode([
+        'status' => 'error', 
+        'message' => 'Vendor autoload mancante in: ' . $autoloadPath . '. Esegui composer install nella cartella backend.'
+    ]));
+}
+
+require_once $autoloadPath;
+
+// Carica le variabili d'ambiente usando il percorso assoluto
+try {
+    $dotenv = Dotenv\Dotenv::createImmutable($baseDir);
+    $dotenv->safeLoad();
+} catch (Exception $e) {
+    // Ignoriamo errori se .env non esiste in produzione
+}
 
 // ==========================================
-// 3. CONFIGURAZIONE E CORE
+// 4. CONFIGURAZIONE E CORE
 // ==========================================
-require_once '../app/config/database.php';
-require_once '../app/core/Controller.php';
-require_once '../app/core/App.php';
+require_once $baseDir . '/app/config/database.php';
+require_once $baseDir . '/app/core/Controller.php';
+require_once $baseDir . '/app/core/App.php';
 
 // Models
-require_once '../app/models/Contact.php';
-require_once '../app/models/WhatsAppClick.php';
+require_once $baseDir . '/app/models/Contact.php';
+require_once $baseDir . '/app/models/WhatsAppClick.php';
 
 // Services
-require_once '../app/services/EmailService.php';
+require_once $baseDir . '/app/services/EmailService.php';
 
 // ==========================================
-// 4. AVVIO APPLICAZIONE
+// 5. AVVIO APPLICAZIONE
 // ==========================================
 $app = new App();
 ?>

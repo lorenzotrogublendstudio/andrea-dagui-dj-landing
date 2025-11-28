@@ -2,6 +2,7 @@ import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import img1 from '../assets/img/img1.jpg';
 import { trackWhatsAppClick } from '../utils/analytics';
+import CTAButton from './CTAButton';
 
 const AboutSection = () => {
   const [titleRef, titleVisible] = useScrollAnimation(0.2);
@@ -68,7 +69,8 @@ const AboutSection = () => {
                 </div>
 
                 {/* PULSANTE WHATSAPP - Allineato a Sinistra */}
-                <div className="flex flex-col sm:flex-row items-start gap-4">
+                <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
+                  <CTAButton text="Richiedi Preventivo" variant="primary" />
                   <a 
                     href={whatsappLink}
                     onClick={handleClick}

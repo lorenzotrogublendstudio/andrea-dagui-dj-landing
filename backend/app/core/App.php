@@ -4,11 +4,15 @@ class App {
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
+    protected $baseDir;
 
     public function __construct() {
+        // backend/app/core -> backend/app -> backend
+        $this->baseDir = dirname(dirname(__DIR__)); 
+        
         $this->parseUrl();
         $this->loadController();
-        $this->loadMethod(); // <--- NUOVO STEP FONDAMENTALE
+        $this->loadMethod();
         $this->callMethod();
     }
 
@@ -18,7 +22,6 @@ class App {
         if (isset($_GET['url'])) {
             $url = rtrim($_GET['url'], '/');
         } elseif (isset($_SERVER['REQUEST_URI'])) {
-            // Fallback per server PHP built-in
             $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         }
 
@@ -26,19 +29,21 @@ class App {
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $this->params = explode('/', $url);
 
-            // 1. Trova il Controller (prima parte URL)
-            if (isset($this->params[0]) && file_exists('../app/controllers/' . ucfirst($this->params[0]) . 'Controller.php')) {
-                $this->controller = ucfirst($this->params[0]) . 'Controller';
+            // Costruisci percorso assoluto per verificare il file
+            $controllerName = ucfirst($this->params[0]) . 'Controller';
+            $controllerPath = $this->baseDir . '/app/controllers/' . $controllerName . '.php';
+
+            if (isset($this->params[0]) && file_exists($controllerPath)) {
+                $this->controller = $controllerName;
                 unset($this->params[0]);
             }
         }
         
-        // Riordina gli indici dell'array params
         $this->params = $this->params ? array_values($this->params) : [];
     }
 
     protected function loadController() {
-        $controllerFile = '../app/controllers/' . $this->controller . '.php';
+        $controllerFile = $this->baseDir . '/app/controllers/' . $this->controller . '.php';
         
         if (file_exists($controllerFile)) {
             require_once $controllerFile;
@@ -50,7 +55,6 @@ class App {
         }
     }
 
-    // 2. Trova il Metodo (seconda parte URL)
     protected function loadMethod() {
         if (isset($this->params[0])) {
             if (method_exists($this->controller, $this->params[0])) {
@@ -58,7 +62,6 @@ class App {
                 unset($this->params[0]);
             }
         }
-        // I parametri rimanenti sono gli argomenti da passare al metodo
         $this->params = $this->params ? array_values($this->params) : [];
     }
 
@@ -66,7 +69,6 @@ class App {
         if (method_exists($this->controller, $this->method)) {
             call_user_func_array([$this->controller, $this->method], $this->params);
         } else {
-            // Metodo non trovato
             http_response_code(404);
             echo json_encode(['status' => 'error', 'message' => 'Metodo non trovato: ' . $this->method]);
             exit;

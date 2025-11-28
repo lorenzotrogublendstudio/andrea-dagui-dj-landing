@@ -1,5 +1,6 @@
 import React from 'react';
 import LeadForm from './LeadForm'; // <--- Importa il componente
+import CTAButton from './CTAButton';
 
 const HeroSection = () => {
   const scrollToAbout = () => {
@@ -26,9 +27,12 @@ const HeroSection = () => {
             </p>
             
             {/* Pulsante scopri di più (desktop) */}
-            <div className="hidden lg:flex items-center gap-4 cursor-pointer group" onClick={scrollToAbout}>
-               {/* ... icone (codice esistente) ... */}
-               <span className="text-white/70 group-hover:text-white transition-colors">Scopri di più</span>
+            <div className="hidden lg:flex items-center gap-4 mt-8">
+               <div className="cursor-pointer group flex items-center gap-2" onClick={scrollToAbout}>
+                  {/* ... icone (codice esistente) ... */}
+                  <span className="text-white/70 group-hover:text-white transition-colors">Scopri di più</span>
+               </div>
+               <CTAButton text="Richiedi Preventivo" variant="primary" />
             </div>
           </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CTAButton from './CTAButton';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -111,8 +112,13 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* 3. DESTRA: Mobile Toggle */}
-          <div className="flex-1 flex justify-end">
+          {/* 3. DESTRA: CTA Desktop & Mobile Toggle */}
+          <div className="flex-1 flex justify-end items-center gap-4">
+            {/* CTA Desktop */}
+            <div className="hidden lg:block">
+              <CTAButton text="Preventivo" variant="primary" className="!py-2 !px-6 !text-sm" />
+            </div>
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden relative w-10 h-10 flex items-center justify-center backdrop-blur-sm hover:bg-white/5 transition-all duration-300 group"
@@ -185,6 +191,11 @@ const Navbar = () => {
                   </button>
                 );
               })}
+              
+              {/* CTA Mobile */}
+              <div className="px-6 py-4">
+                <CTAButton text="Richiedi Preventivo" variant="primary" className="w-full justify-center" />
+              </div>
             </div>
           </div>
         </div>
