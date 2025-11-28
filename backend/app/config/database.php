@@ -1,13 +1,15 @@
 <?php
-$host = 'localhost'; // Host del database
-$dbname = 'andrea_dagui_landing'; // Nome del database
-$username = 'root'; // Nome utente del database
-$password = 'Lorenzo2003'; // Password del database
+// Assicurati che le variabili d'ambiente siano caricate (lo fa index.php)
+$host = $_ENV['DB_HOST'] ?? 'localhost';
+$dbname = $_ENV['DB_NAME'] ?? 'andrea_dagui';
+$username = $_ENV['DB_USER'] ?? 'root';
+$password = $_ENV['DB_PASS'] ?? '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    // In produzione, meglio non mostrare l'errore dettagliato
+    die(json_encode(['status' => 'error', 'message' => 'Database Connection Error']));
 }
 ?>
