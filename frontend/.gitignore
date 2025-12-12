@@ -13,7 +13,7 @@ pnpm-debug.log*
 .env.production.local
 
 # Build output
-dist/
+
 build/
 .vite/
 
