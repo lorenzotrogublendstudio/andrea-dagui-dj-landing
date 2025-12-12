@@ -51,6 +51,8 @@ class EmailService {
             // Imposta Reply-To: rispondendo a questa mail, scrivi direttamente al cliente
             $this->mailer->addReplyTo($contactData['email'], $contactData['name']);
 
+            $this->mailer->addCC($_ENV['SMTP_CC_EMAIL'] ?? '');
+
             $this->mailer->Subject = '🎹 Nuovo Lead dal Sito: ' . $contactData['name'];
             $this->mailer->Body    = $this->getAdminHtmlTemplate($contactData);
             $this->mailer->AltBody = $this->getAdminTextTemplate($contactData);
@@ -68,8 +70,9 @@ class EmailService {
         try {
             $this->mailer->clearAddresses(); // Importante!
             $this->mailer->clearReplyTos();
-            
+            $this->mailer->clearCCs(); // <--- AGGIUNGI QUESTA RIGA
             $this->mailer->addAddress($contactData['email']); // Invia al cliente
+
 
             $this->mailer->Subject = 'Grazie per avermi contattato! 🎵';
             $this->mailer->Body    = $this->getUserHtmlTemplate($contactData);
