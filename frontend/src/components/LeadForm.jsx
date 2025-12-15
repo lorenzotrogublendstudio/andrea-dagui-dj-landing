@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-// URL del backend: legge dal file .env o usa quello di fallback
+// Legge l'URL dal file .env o usa il fallback
 const API_URL = import.meta.env.VITE_API_URL || 'https://eventoinmusica.com/api'; 
 
 const LeadForm = ({ variant = 'light' }) => {
@@ -14,7 +14,9 @@ const LeadForm = ({ variant = 'light' }) => {
 
   const isDark = variant === 'dark';
 
-  // --- CORREZIONE QUI: max-w-full e box-border impediscono lo sbordamento ---
+  // --- CORREZIONE APPLICATA QUI ---
+  // Aggiunto: 'max-w-full' e 'box-border'
+  // Questo impedisce al padding di allargare il campo oltre il contenitore
   const inputBaseClass = "w-full max-w-full box-border px-4 py-3 rounded-xl border-2 outline-none transition-all duration-300";
   
   const inputClass = isDark 
@@ -55,7 +57,7 @@ const LeadForm = ({ variant = 'light' }) => {
   };
 
   return (
-    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24 w-full max-w-full overflow-hidden">
+    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24 w-full max-w-full">
       {/* Nome */}
       <div className="w-full">
         <label className={labelClass}>Nome e Cognome *</label>
@@ -131,7 +133,7 @@ const LeadForm = ({ variant = 'light' }) => {
         </button>
       </div>
 
-      {/* Feedback */}
+      {/* Messaggi di Feedback */}
       {status === 'success' && (
         <div className="w-full bg-green-500/20 border border-green-500/50 text-green-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
           ✅ Messaggio inviato con successo!
