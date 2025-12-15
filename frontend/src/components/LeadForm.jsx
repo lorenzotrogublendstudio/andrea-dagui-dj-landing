@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 
-// URL del backend (assicurati che la porta 8000 sia corretta per il tuo server PHP)
+// URL del backend: legge dal file .env o usa quello di fallback
 const API_URL = import.meta.env.VITE_API_URL || 'https://eventoinmusica.com/api'; 
 
 const LeadForm = ({ variant = 'light' }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    event_date: '', // Nuovo campo stato
+    event_date: '',
     message: ''
   });
   const [status, setStatus] = useState(''); // 'sending', 'success', 'error'
 
   const isDark = variant === 'dark';
 
-  // Stili dinamici in base alla variante (scuro per Hero, chiaro per Footer)
-  const inputBaseClass = "w-full px-4 py-3 rounded-xl border-2 outline-none transition-all duration-300";
+  // --- CORREZIONE QUI: max-w-full e box-border impediscono lo sbordamento ---
+  const inputBaseClass = "w-full max-w-full box-border px-4 py-3 rounded-xl border-2 outline-none transition-all duration-300";
+  
   const inputClass = isDark 
     ? `${inputBaseClass} bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-[#d02894] focus:bg-white/20` 
     : `${inputBaseClass} bg-gray-50 border-gray-200 text-gray-800 focus:border-[#d02894] focus:bg-white`;
@@ -31,7 +32,6 @@ const LeadForm = ({ variant = 'light' }) => {
     setStatus('sending');
     
     try {
-      // CHIAMATA AL BACKEND
       const response = await fetch(`${API_URL}/contact/saveLead`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,7 @@ const LeadForm = ({ variant = 'light' }) => {
       if (response.ok && result.status === 'success') {
         setStatus('success');
         setFormData({ name: '', email: '', event_date: '', message: '' }); // Reset form
-        setTimeout(() => setStatus(''), 5000); // Rimuovi messaggio dopo 5 sec
+        setTimeout(() => setStatus(''), 5000);
       } else {
         setStatus('error');
         console.error("Errore server:", result.message);
@@ -55,9 +55,9 @@ const LeadForm = ({ variant = 'light' }) => {
   };
 
   return (
-    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24">
+    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24 w-full max-w-full overflow-hidden">
       {/* Nome */}
-      <div>
+      <div className="w-full">
         <label className={labelClass}>Nome e Cognome *</label>
         <input
           type="text"
@@ -71,7 +71,7 @@ const LeadForm = ({ variant = 'light' }) => {
       </div>
 
       {/* Email */}
-      <div>
+      <div className="w-full">
         <label className={labelClass}>Email *</label>
         <input
           type="email"
@@ -84,21 +84,20 @@ const LeadForm = ({ variant = 'light' }) => {
         />
       </div>
 
-      {/* Data Evento (Nuovo Campo) */}
-      <div>
+      {/* Data Evento */}
+      <div className="w-full">
         <label className={labelClass}>Data Presunta Evento</label>
         <input
           type="date"
           name="event_date"
           value={formData.event_date}
           onChange={handleChange}
-          // [color-scheme:dark] forza l'icona del calendario bianca su sfondi scuri
           className={`${inputClass} ${isDark ? '[color-scheme:dark]' : ''}`} 
         />
       </div>
 
       {/* Messaggio */}
-      <div>
+      <div className="w-full">
         <label className={labelClass}>Messaggio</label>
         <textarea
           name="message"
@@ -112,32 +111,34 @@ const LeadForm = ({ variant = 'light' }) => {
       </div>
 
       {/* Bottone Invio */}
-      <button
-        type="submit"
-        disabled={status === 'sending'}
-        className="w-full bg-gradient-to-r from-[#d02894] to-purple-600 hover:from-[#b02080] hover:to-purple-700 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-[#d02894]/40 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        {status === 'sending' ? (
-          <>
-            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Invio...
-          </>
-        ) : (
-          'Richiedi Preventivo Gratuito'
-        )}
-      </button>
+      <div className="w-full">
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className="w-full bg-gradient-to-r from-[#d02894] to-purple-600 hover:from-[#b02080] hover:to-purple-700 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-[#d02894]/40 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {status === 'sending' ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Invio...
+            </>
+          ) : (
+            'Richiedi Preventivo Gratuito'
+          )}
+        </button>
+      </div>
 
-      {/* Messaggi di Feedback */}
+      {/* Feedback */}
       {status === 'success' && (
-        <div className="bg-green-500/20 border border-green-500/50 text-green-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
+        <div className="w-full bg-green-500/20 border border-green-500/50 text-green-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
           ✅ Messaggio inviato con successo!
         </div>
       )}
       {status === 'error' && (
-        <div className="bg-red-500/20 border border-red-500/50 text-red-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
+        <div className="w-full bg-red-500/20 border border-red-500/50 text-red-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
           ❌ Si è verificato un errore. Riprova.
         </div>
       )}
