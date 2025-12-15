@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // URL del backend (assicurati che la porta 8000 sia corretta per il tuo server PHP)
-const API_URL = 'http://localhost:8000'; 
+const API_URL = import.meta.env.VITE_API_URL || 'https://eventoinmusica.com/api'; 
 
 const LeadForm = ({ variant = 'light' }) => {
   const [formData, setFormData] = useState({

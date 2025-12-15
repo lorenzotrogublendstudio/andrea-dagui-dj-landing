@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 class EmailService {
     private $mailer;
@@ -10,7 +11,13 @@ class EmailService {
         $this->mailer = new PHPMailer(true);
         
         try {
-            // Configurazione SMTP (Identica per entrambe le mail)
+            // DEBUG: Attiva i log nel file debug_log.txt per vedere se il server rifiuta la mail
+            $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER; 
+            $this->mailer->Debugoutput = function($str, $level) {
+                error_log("SMTP CLIENT: $str");
+            };
+
+            // Configurazione SMTP
             $this->mailer->isSMTP();
             $this->mailer->Host       = $_ENV['SMTP_HOST'] ?? 'localhost';
             $this->mailer->SMTPAuth   = true;
@@ -29,8 +36,8 @@ class EmailService {
 
             $this->mailer->Port       = $_ENV['SMTP_PORT'] ?? 465;
             
-            // Impostazioni predefinite Mittente
-            $fromEmail = $_ENV['SMTP_FROM_EMAIL'] ?? 'info@admusic.it';
+            // Mittente
+            $fromEmail = $_ENV['SMTP_FROM_EMAIL'] ?? 'info@eventoinmusica.com';
             $fromName = $_ENV['SMTP_FROM_NAME'] ?? 'AD Music';
             $this->mailer->setFrom($fromEmail, $fromName);
 
@@ -42,18 +49,37 @@ class EmailService {
         }
     }
 
-    // --- 1. NOTIFICA ALL'AMMINISTRATORE (Andrea) ---
+    // --- 1. NOTIFICA ALL'AMMINISTRATORE ---
     public function sendLeadNotification($contactData) {
         try {
-            $this->mailer->clearAddresses(); // Pulisce destinatari precedenti
-            $this->mailer->addAddress($_ENV['SMTP_USER']); // Invia a te stesso
+            // Pulizia
+            $this->mailer->clearAddresses(); 
+            $this->mailer->clearCCs();
+            $this->mailer->clearBCCs();
+            $this->mailer->clearReplyTos();
 
-            // Imposta Reply-To: rispondendo a questa mail, scrivi direttamente al cliente
+            // 1. Destinatario Principale (TO): info@eventoinmusica.com
+            // Usa la variabile SMTP_USER che contiene giÃ  info@eventoinmusica.com
+            $this->mailer->addAddress($_ENV['SMTP_USER']); 
+
+            // 2. Reply-To: per rispondere direttamente al cliente
             $this->mailer->addReplyTo($contactData['email'], $contactData['name']);
 
-            $this->mailer->addCC($_ENV['SMTP_CC_EMAIL'] ?? '');
+            // 3. Gestione CC Multipli (lorenzo e matteo)
+            $ccString = $_ENV['ADMIN_CC_EMAILS'] ?? ''; 
+            
+            if (!empty($ccString)) {
+                // Divide la stringa "email1, email2" in un array
+                $emails = explode(',', $ccString);
+                foreach ($emails as $email) {
+                    $email = trim($email); // Toglie spazi vuoti
+                    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $this->mailer->addCC($email);
+                    }
+                }
+            }
 
-            $this->mailer->Subject = '🎹 Nuovo Lead dal Sito: ' . $contactData['name'];
+            $this->mailer->Subject = 'ðŸŽ¹ Nuovo Lead dal Sito: ' . $contactData['name'];
             $this->mailer->Body    = $this->getAdminHtmlTemplate($contactData);
             $this->mailer->AltBody = $this->getAdminTextTemplate($contactData);
 
@@ -65,16 +91,17 @@ class EmailService {
         }
     }
 
-    // --- 2. CONFERMA AL CLIENTE (User) ---
+    // --- 2. CONFERMA AL CLIENTE ---
     public function sendUserConfirmation($contactData) {
         try {
-            $this->mailer->clearAddresses(); // Importante!
+            $this->mailer->clearAddresses(); 
+            $this->mailer->clearCCs();      
+            $this->mailer->clearBCCs();
             $this->mailer->clearReplyTos();
-            $this->mailer->clearCCs(); // <--- AGGIUNGI QUESTA RIGA
-            $this->mailer->addAddress($contactData['email']); // Invia al cliente
+            
+            $this->mailer->addAddress($contactData['email']); 
 
-
-            $this->mailer->Subject = 'Grazie per avermi contattato! 🎵';
+            $this->mailer->Subject = 'Grazie per avermi contattato! ðŸŽµ';
             $this->mailer->Body    = $this->getUserHtmlTemplate($contactData);
             $this->mailer->AltBody = $this->getUserTextTemplate($contactData);
 
@@ -86,10 +113,9 @@ class EmailService {
         }
     }
 
-    // --- TEMPLATE AMMINISTRATORE ---
+    // --- TEMPLATE ---
     private function getAdminHtmlTemplate($data) {
         $dateFormatted = $data['event_date'] ? date('d/m/Y', strtotime($data['event_date'])) : 'Non specificata';
-        
         return "
         <div style='font-family: Helvetica, Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>
             <div style='background: linear-gradient(135deg, #d02894 0%, #a855f7 100%); padding: 20px; text-align: center; color: white;'>
@@ -110,7 +136,6 @@ class EmailService {
         return "Nuovo Contatto:\nNome: {$data['name']}\nEmail: {$data['email']}\nMsg: {$data['message']}";
     }
 
-    // --- TEMPLATE CLIENTE ---
     private function getUserHtmlTemplate($data) {
         return "
         <div style='font-family: Helvetica, Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;'>
@@ -119,23 +144,17 @@ class EmailService {
             </div>
             <div style='padding: 30px; background-color: #fcfcfc; color: #555; line-height: 1.6;'>
                 <p>Ho ricevuto la tua richiesta di informazioni.</p>
-                <p>Ti risponderò al più presto per parlare dei dettagli del tuo evento e capire come rendere la musica indimenticabile.</p>
-                
-                <p style='margin-top: 30px;'>A presto,<br><strong>Andrea D'Aguì</strong><br><em>DJ & Music Planner</em></p>
-                
-                <div style='margin-top: 40px; text-align: center;'>
-                    <a href='https://www.instagram.com' style='color: #d02894; text-decoration: none; margin: 0 10px;'>Instagram</a>
-                    <a href='https://www.facebook.com' style='color: #d02894; text-decoration: none; margin: 0 10px;'>Facebook</a>
-                </div>
+                <p>Ti risponderÃ² al piÃ¹ presto per parlare dei dettagli del tuo evento e capire come rendere la musica indimenticabile.</p>
+                <p style='margin-top: 30px;'>A presto,<br><strong>Andrea D'AguÃ¬</strong><br><em>DJ & Music Planner</em></p>
             </div>
             <div style='background-color: #111; color: #666; text-align: center; padding: 15px; font-size: 11px;'>
-                &copy; " . date('Y') . " Andrea D'Aguì Music
+                &copy; " . date('Y') . " Andrea D'AguÃ¬ Music
             </div>
         </div>";
     }
 
     private function getUserTextTemplate($data) {
-        return "Ciao {$data['name']},\n\nHo ricevuto la tua richiesta. Ti risponderò al più presto!\n\nAndrea D'Aguì";
+        return "Ciao {$data['name']},\n\nHo ricevuto la tua richiesta. Ti risponderÃ² al piÃ¹ presto!\n\nAndrea D'AguÃ¬";
     }
 }
 ?>

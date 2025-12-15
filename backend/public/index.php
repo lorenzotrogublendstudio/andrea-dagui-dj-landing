@@ -1,4 +1,31 @@
 <?php
+// --- INIZIO BLOCCO LOGGING DEBUG ---
+// Abilita la visualizzazione degli errori (solo per debug momentaneo)
+ini_set('display_errors', 0); // Teniamo 0 per non rompere il JSON frontend
+ini_set('log_errors', 1);
+// Definisci un file di log nella stessa cartella
+ini_set('error_log', __DIR__ . '/debug_log.txt');
+
+// Funzione per loggare tutto (anche i fatal error)
+function shutdownHandler() {
+    $error = error_get_last();
+    if ($error !== NULL && $error['type'] === E_ERROR) {
+        error_log("[CRITICAL ERROR] File: " . $error['file'] . " Line: " . $error['line'] . " Message: " . $error['message']);
+        // Rispondi con un JSON valido anche in caso di crash per vedere l'errore in console (opzionale)
+        header('Content-Type: application/json');
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'Critical Server Error', 'debug' => $error['message']]);
+    }
+}
+register_shutdown_function('shutdownHandler');
+// --- FINE BLOCCO LOGGING DEBUG ---
+
+// Definiamo la root del backend (un livello sopra 'public' se sei in locale, o __DIR__ se sei su server appiattito)
+// ... Il resto del tuo codice originale ...
+$baseDir = dirname(__DIR__); // O __DIR__ a seconda di come l'hai configurato sul server
+
+// ...
+
 // Definiamo la cartella base (che corrisponde alla cartella 'backend')
 $baseDir = dirname(__DIR__); 
 
@@ -60,7 +87,7 @@ require_once $baseDir . '/app/core/App.php';
 
 // Models
 require_once $baseDir . '/app/models/Contact.php';
-require_once $baseDir . '/app/models/WhatsAppClick.php';
+require_once $baseDir . '/app/models/WhatsappClick.php';
 
 // Services
 require_once $baseDir . '/app/services/EmailService.php';

@@ -33,13 +33,13 @@ const ContactForm = () => {
               </div>
               
               <div className="space-y-6">
-                <a href="mailto:info@admusic.it" className="flex items-center gap-4 text-gray-700 hover:text-[#d02894] transition-colors group p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#d02894]/30">
+                <a href="mailto:info@eventoinmusica.com" className="flex items-center gap-4 text-gray-700 hover:text-[#d02894] transition-colors group p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#d02894]/30">
                   <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-[#d02894] group-hover:scale-110 transition-transform">📧</div>
-                  <span className="font-medium">info@admusic.it</span>
+                  <span className="font-medium">info@eventoinmusica.com</span>
                 </a>
-                <a href="tel:+393331234567" className="flex items-center gap-4 text-gray-700 hover:text-[#d02894] transition-colors group p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#d02894]/30">
+                <a href="tel:+393292025343" className="flex items-center gap-4 text-gray-700 hover:text-[#d02894] transition-colors group p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#d02894]/30">
                   <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-[#d02894] group-hover:scale-110 transition-transform">📱</div>
-                  <span className="font-medium">+39 333 123 4567</span>
+                  <span className="font-medium">+39 329 202 5343</span>
                 </a>
               </div>
             </div>

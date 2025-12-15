@@ -66,8 +66,8 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Email</p>
-                  <a href="mailto:info@admusic.it" className="hover:text-[#d02894] transition-colors">
-                    info@admusic.it
+                  <a href="mailto:info@eventoinmusica.com" className="hover:text-[#d02894] transition-colors">
+                    info@eventoinmusica.com
                   </a>
                 </div>
               </li>
@@ -80,21 +80,11 @@ const Footer = () => {
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Telefono</p>
                   <a href="tel:+393331234567" className="hover:text-[#d02894] transition-colors">
-                    +39 333 123 4567
+                    +39 329 202 5343
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-3 text-gray-400 group">
-                <div className="w-10 h-10 rounded-full bg-[#d02894]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#d02894]/20 transition-colors">
-                  <svg className="w-5 h-5 text-[#d02894]" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Location</p>
-                  <p>Milano, Italia</p>
-                </div>
-              </li>
+             
             </ul>
           </div>
         </div>
@@ -103,7 +93,7 @@ const Footer = () => {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col items-center gap-4 text-center">
             <p className="text-gray-400 text-xs sm:text-sm">
-              &copy; {currentYear} <span className="text-[#d02894] font-bold">ANDREA D'AGUÌ MUSIC</span>. Tutti i diritti riservati. | P.IVA: 12345678901
+              &copy; {currentYear} <span className="text-[#d02894] font-bold">ANDREA D'AGUÌ MUSIC</span>. Tutti i diritti riservati. 
             </p>
           </div>
 
