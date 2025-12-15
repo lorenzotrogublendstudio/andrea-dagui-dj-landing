@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Legge l'URL dal file .env o usa il fallback
 const API_URL = import.meta.env.VITE_API_URL || 'https://eventoinmusica.com/api'; 
 
 const LeadForm = ({ variant = 'light' }) => {
@@ -10,20 +9,26 @@ const LeadForm = ({ variant = 'light' }) => {
     event_date: '',
     message: ''
   });
-  const [status, setStatus] = useState(''); // 'sending', 'success', 'error'
+  const [status, setStatus] = useState(''); 
 
   const isDark = variant === 'dark';
 
-  // --- CORREZIONE APPLICATA QUI ---
-  // Aggiunto: 'max-w-full' e 'box-border'
-  // Questo impedisce al padding di allargare il campo oltre il contenitore
-  const inputBaseClass = "w-full max-w-full box-border px-4 py-3 rounded-xl border-2 outline-none transition-all duration-300";
+  // Definiamo le classi base
+  const inputBaseClass = "block px-4 py-3 rounded-xl border-2 outline-none transition-all duration-300";
   
   const inputClass = isDark 
     ? `${inputBaseClass} bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-[#d02894] focus:bg-white/20` 
     : `${inputBaseClass} bg-gray-50 border-gray-200 text-gray-800 focus:border-[#d02894] focus:bg-white`;
 
   const labelClass = `block mb-1 text-sm font-semibold ${isDark ? 'text-gray-300' : 'text-gray-600'}`;
+
+  // STILE FORZATO: Questo sovrascrive qualsiasi CSS esterno
+  const forcedStyle = {
+    width: '100%', 
+    maxWidth: '100%', 
+    boxSizing: 'border-box',
+    minWidth: '0' // Fondamentale per flexbox su mobile
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,20 +49,21 @@ const LeadForm = ({ variant = 'light' }) => {
 
       if (response.ok && result.status === 'success') {
         setStatus('success');
-        setFormData({ name: '', email: '', event_date: '', message: '' }); // Reset form
+        setFormData({ name: '', email: '', event_date: '', message: '' }); 
         setTimeout(() => setStatus(''), 5000);
       } else {
         setStatus('error');
-        console.error("Errore server:", result.message);
       }
     } catch (error) {
-      console.error("Errore di rete:", error);
+      console.error("Errore:", error);
       setStatus('error');
     }
   };
 
   return (
-    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24 w-full max-w-full">
+    // Aggiunto overflow-hidden al form container
+    <form id="contact-form" onSubmit={handleSubmit} className="space-y-4 scroll-mt-24 w-full" style={{ overflow: 'hidden' }}>
+      
       {/* Nome */}
       <div className="w-full">
         <label className={labelClass}>Nome e Cognome *</label>
@@ -68,6 +74,7 @@ const LeadForm = ({ variant = 'light' }) => {
           onChange={handleChange}
           required
           className={inputClass}
+          style={forcedStyle} // <--- STILE FORZATO
           placeholder="Mario Rossi"
         />
       </div>
@@ -82,6 +89,7 @@ const LeadForm = ({ variant = 'light' }) => {
           onChange={handleChange}
           required
           className={inputClass}
+          style={forcedStyle} // <--- STILE FORZATO
           placeholder="mario@email.com"
         />
       </div>
@@ -95,6 +103,7 @@ const LeadForm = ({ variant = 'light' }) => {
           value={formData.event_date}
           onChange={handleChange}
           className={`${inputClass} ${isDark ? '[color-scheme:dark]' : ''}`} 
+          style={forcedStyle} // <--- STILE FORZATO
         />
       </div>
 
@@ -108,6 +117,7 @@ const LeadForm = ({ variant = 'light' }) => {
           required
           rows="3"
           className={inputClass}
+          style={forcedStyle} // <--- STILE FORZATO
           placeholder="Raccontami del tuo evento..."
         ></textarea>
       </div>
@@ -118,30 +128,25 @@ const LeadForm = ({ variant = 'light' }) => {
           type="submit"
           disabled={status === 'sending'}
           className="w-full bg-gradient-to-r from-[#d02894] to-purple-600 hover:from-[#b02080] hover:to-purple-700 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-[#d02894]/40 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          style={{ width: '100%', boxSizing: 'border-box' }}
         >
           {status === 'sending' ? (
-            <>
-              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Invio...
-            </>
+            <>Invio...</>
           ) : (
             'Richiedi Preventivo Gratuito'
           )}
         </button>
       </div>
 
-      {/* Messaggi di Feedback */}
+      {/* Feedback */}
       {status === 'success' && (
-        <div className="w-full bg-green-500/20 border border-green-500/50 text-green-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
-          ✅ Messaggio inviato con successo!
+        <div className="w-full bg-green-500/20 border border-green-500/50 text-green-500 text-sm font-bold px-4 py-3 rounded-xl text-center">
+          ✅ Messaggio inviato!
         </div>
       )}
       {status === 'error' && (
-        <div className="w-full bg-red-500/20 border border-red-500/50 text-red-500 text-sm font-bold px-4 py-3 rounded-xl animate-fade-in text-center">
-          ❌ Si è verificato un errore. Riprova.
+        <div className="w-full bg-red-500/20 border border-red-500/50 text-red-500 text-sm font-bold px-4 py-3 rounded-xl text-center">
+          ❌ Errore. Riprova.
         </div>
       )}
     </form>
