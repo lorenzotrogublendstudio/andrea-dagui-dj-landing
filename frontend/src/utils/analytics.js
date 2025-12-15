@@ -1,6 +1,10 @@
 export const trackWhatsAppClick = async (sectionName) => {
+  // Prende l'URL dal file .env (o usa localhost come fallback di sicurezza)
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
   try {
-    await fetch('http://localhost:8000/analytics/trackWhatsapp', {
+    // Nota l'uso degli backtick (`) per inserire la variabile nell'URL
+    await fetch(`${API_URL}/analytics/trackWhatsapp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
